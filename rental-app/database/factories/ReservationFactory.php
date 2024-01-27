@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Car;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,15 @@ class ReservationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name(),
+            'email' => fake()->email(),
+            'address' => fake()->address(),
+            'telephone' => fake()->phoneNumber(),
+            'date1' => fake()->date('after:now'),
+            'date2' => fake()->date('after:date1'),
+            'days' => fake()->numberBetween(1, 10),
+            'total' => fake()->numberBetween(5000, 150000),
+            'car_id' => Car::all()->random()->id,
         ];
     }
 }

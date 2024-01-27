@@ -14,6 +14,18 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+
+            $table->string('name');
+            $table->string('email');
+            $table->string('address');
+            $table->string('telephone');
+            $table->date('date1');
+            $table->date('date2');
+            $table->unsignedBigInteger('days');
+            $table->unsignedBigInteger('total');
+
+            $table->unsignedBigInteger('car_id');
+            $table->foreign('car_id')->references('id')->on('cars')->onDelete('cascade');
         });
     }
 

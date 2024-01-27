@@ -17,7 +17,8 @@ class CarFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'plate' => fake()->regexify('[A-Z]{3}-\d{3}'),
+            'price' => fake()->numberBetween(5000, 50000),
         ];
     }
 }

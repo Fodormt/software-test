@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
+            $table->string('plate');
+            $table->string('filename')->nullable();
+            $table->string('filename_hash')->nullable();
+            $table->unsignedBigInteger('price');
             $table->timestamps();
         });
     }
