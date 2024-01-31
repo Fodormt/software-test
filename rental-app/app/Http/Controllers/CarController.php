@@ -56,11 +56,26 @@ class CarController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // Search cars by date
+    public function search(Request $request)
     {
-        //
+        // Validate the input
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        // Extract the start and end dates from the request
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        // Find cars available between the specified dates
+        $availableCars = Car::whereDoesntHave('reservations', function ($query) use ($startDate, $endDate) {
+            $query->where('date2', '>', $startDate)
+                ->where('date1', '<', $endDate);
+        })->get();
+
+        // Pass the available cars to the view
+        return view('search-results', compact('availableCars'));
     }
 }

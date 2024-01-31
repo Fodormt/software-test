@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        return view('reservations', ['reservations' => Reservation::all()]);
+        return view('reservations', ['reservations' => Reservation::all(), 'cars' => Car::all()]);
     }
 
     /**

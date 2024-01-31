@@ -23,10 +23,10 @@ class ReservationFactory extends Factory
             'email' => fake()->email(),
             'address' => fake()->address(),
             'telephone' => fake()->phoneNumber(),
-            'date1' => fake()->date('after:now'),
-            'date2' => fake()->date('after:date1'),
-            'days' => fake()->numberBetween(1, 10),
-            'total' => fake()->numberBetween(5000, 150000),
+            'date1' => fake()->dateTimeBetween('-1 week', '+1 week'),
+            'date2' => fake()->dateTimeBetween('+1 week', '+5 week'),
+            'days' => fake()->numberBetween(1, 31),
+            'total' => fake()->numberBetween(5000, 1500000),
             'car_id' => Car::all()->random()->id,
         ];
     }

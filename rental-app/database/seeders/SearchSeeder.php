@@ -2,17 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Reservation;
+use App\Models\Search;
+use Database\Factories\SearchFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ReservationSeeder extends Seeder
+class SearchSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Reservation::factory(5)->create();
+        Search::factory(5)->create();
     }
 }

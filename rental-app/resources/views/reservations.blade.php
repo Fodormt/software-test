@@ -5,7 +5,13 @@
 @section('content')
     @foreach ($reservations as $r)
         <div>
-            <b>CarID</b> {{$r->car_id}}<br>
+            @foreach($cars as $c)
+                @if ($c->id === $r->car_id)
+                    <b>Plate</b> {{$c->plate}}<br>
+                    @break
+                @endif
+            @endforeach
+            {{-- <b>CarID</b> {{$r->car_id}}<br> --}}
             <b>Name</b> {{$r->name}}<br>
             <b>Email</b> {{$r->email}}<br>
             <b>Address</b> {{$r->address}}<br>
