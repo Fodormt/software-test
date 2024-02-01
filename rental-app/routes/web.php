@@ -24,4 +24,5 @@ Route::resource('cars', CarController::class);
 Route::resource('reservations', ReservationController::class);
 Route::resource('search', SearchController::class);
 Route::get('/cars/search', [CarController::class, 'search'])->name('cars.search');
-Route::get('/cars/rent', [CarController::class, 'rent'])->name('cars.rent');
+Route::get('/reservations/rent/{carId}/{carPrice}/{start_date}/{end_date}', [ReservationController::class, 'rent'])
+    ->name('reservations.rent');

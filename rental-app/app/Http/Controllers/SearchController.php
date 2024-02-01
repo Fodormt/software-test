@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Car;
+use App\Models\Reservation;
 use App\Models\Search;
 
 class SearchController extends Controller
@@ -46,23 +47,24 @@ class SearchController extends Controller
         ]);
 
         // Select available cars
-        $availableCars = Car::whereNotIn('id', function ($query) use ($startDate, $endDate) {
-            $query->select('car_id')
-                ->from('reservations')
-                ->where(function ($query) use ($startDate, $endDate) {
-                    $query->where('date1', '<', $startDate)
-                        ->where('date2', '<', $startDate);
-                })
-                ->orWhere(function ($query) use ($startDate, $endDate) {
-                    $query->where('date1', '>', $endDate)
-                        ->where('date2', '>', $endDate);
-                });
-        })->get();
+        $availableCars = [];
+        foreach (Car::all() as $c) {
+            $add = true;
+            foreach (Reservation::all() as $r) {
+                if ($r->car_id == $c->id) {
+                    if (($r->date1 >= $startDate && $r->date1 <= $endDate) || ($r->date2 >= $startDate && $r->date2 <= $endDate)) {
+                        $add = false;
+                        break;
+                    }
+                }
+            }
+            if ($add) {
+                $availableCars[] = $c;
+            }
+        }
 
 
-
-
-        return view('search-results', ['availableCars' => $availableCars]);
+        return view('search-results', ['availableCars' => $availableCars, 'start_date' => $startDate, 'end_date' => $endDate]);
     }
 
     /**

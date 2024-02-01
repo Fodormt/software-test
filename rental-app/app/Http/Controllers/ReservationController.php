@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use DateTime;
 
 class ReservationController extends Controller
 {
@@ -29,7 +30,36 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the input
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'address' => 'required|string',
+            'telephone' => ['required', 'regex:/\+[0-9]{11}/'],
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+            'days' => 'required|integer|min:1',
+            'total' => 'required|numeric|min:0',
+            'car_id' => 'required|exists:cars,id', 
+
+        ]);
+
+        // Create a new reservation using Reservation::create
+        $reservation = Reservation::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'address' => $validatedData['address'],
+            'telephone' => $validatedData['telephone'],
+            'date1' => $validatedData['start_date'],
+            'date2' => $validatedData['end_date'],
+            'days' => $validatedData['days'],
+            'total' => $validatedData['total'],
+            'car_id' => $validatedData['car_id'],
+        ]);
+        
+
+        // Optionally, you can redirect the user to a success page or return a response
+        return view('success', ['reservation' => $reservation]);
     }
 
     /**
@@ -62,5 +92,18 @@ class ReservationController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    // rent a car
+    public function rent(string $carId, $carPrice, $start_date, $end_date)
+    {
+        $startDate = new DateTime($start_date);
+        $endDate = new DateTime($end_date);
+        $differenceInDays = $differenceInDays = $endDate->diff($startDate)->days;
+        return view('rent', [
+            'carId' => $carId, 'carPrice' => $carPrice,
+            'start_date' => $start_date, 'end_date' => $end_date,
+            'differenceInDays' => $differenceInDays,
+        ]);
     }
 }

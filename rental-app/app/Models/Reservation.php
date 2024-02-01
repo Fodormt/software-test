@@ -22,6 +22,7 @@ class Reservation extends Model
         'date2', // end of rent
         'days',
         'total',
+        'car_id',
     ];
 
     public function cars(): HasOne {
