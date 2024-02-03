@@ -18,11 +18,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('/');
+
+Route::get('/admin', function () {
+    return view('admin');
+})->name('/admin');
 
 Route::resource('cars', CarController::class);
 Route::resource('reservations', ReservationController::class);
 Route::resource('search', SearchController::class);
-Route::get('/cars/search', [CarController::class, 'search'])->name('cars.search');
+
 Route::get('/reservations/rent/{carId}/{carPrice}/{start_date}/{end_date}', [ReservationController::class, 'rent'])
     ->name('reservations.rent');

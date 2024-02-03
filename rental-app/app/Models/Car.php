@@ -18,6 +18,7 @@ class Car extends Model
         'filename',
         'filename_hash',
         'price',
+        'is_active'
     ];
 
     public function reservations(): BelongsToMany {

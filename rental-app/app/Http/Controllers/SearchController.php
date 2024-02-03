@@ -49,17 +49,19 @@ class SearchController extends Controller
         // Select available cars
         $availableCars = [];
         foreach (Car::all() as $c) {
-            $add = true;
-            foreach (Reservation::all() as $r) {
-                if ($r->car_id == $c->id) {
-                    if (($r->date1 >= $startDate && $r->date1 <= $endDate) || ($r->date2 >= $startDate && $r->date2 <= $endDate)) {
-                        $add = false;
-                        break;
+            if ($c->is_active) {
+                $add = true;
+                foreach (Reservation::all() as $r) {
+                    if ($r->car_id == $c->id) {
+                        if (($r->date1 >= $startDate && $r->date1 <= $endDate) || ($r->date2 >= $startDate && $r->date2 <= $endDate)) {
+                            $add = false;
+                            break;
+                        }
                     }
                 }
-            }
-            if ($add) {
-                $availableCars[] = $c;
+                if ($add) {
+                    $availableCars[] = $c;
+                }
             }
         }
 

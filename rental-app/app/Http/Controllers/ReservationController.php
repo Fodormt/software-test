@@ -14,7 +14,15 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        return view('reservations', ['reservations' => Reservation::all(), 'cars' => Car::all()]);
+        $reservations = [];
+        foreach (Reservation::all() as $reservation) {
+            $car = Car::find($reservation->car_id);
+            if ($car && $car->is_active) {
+                $reservations[] = $reservation;
+            }
+        }
+
+        return view('reservations', ['reservations' => $reservations, 'cars' => Car::all()]);
     }
 
     /**
@@ -40,7 +48,7 @@ class ReservationController extends Controller
             'end_date' => 'required|date|after:start_date',
             'days' => 'required|integer|min:1',
             'total' => 'required|numeric|min:0',
-            'car_id' => 'required|exists:cars,id', 
+            'car_id' => 'required|exists:cars,id',
 
         ]);
 
@@ -56,9 +64,7 @@ class ReservationController extends Controller
             'total' => $validatedData['total'],
             'car_id' => $validatedData['car_id'],
         ]);
-        
 
-        // Optionally, you can redirect the user to a success page or return a response
         return view('success', ['reservation' => $reservation]);
     }
 

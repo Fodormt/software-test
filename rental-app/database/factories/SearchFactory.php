@@ -17,8 +17,8 @@ class SearchFactory extends Factory
     public function definition(): array
     {
         return [
-            'start_date' => fake()->dateTimeBetween('-5 week', '-4 week'),
-            'end_date' => fake()->dateTimeBetween('-4 week', '-3 week'),
+            'start_date' => fake()->dateTimeBetween('-5 week', '-4 week')->format('Y-m-d'),
+            'end_date' => fake()->dateTimeBetween('-4 week', '-3 week')->format('Y-m-d'),
         ];
     }
 }

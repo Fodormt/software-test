@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('filename')->nullable();
             $table->string('filename_hash')->nullable();
             $table->unsignedBigInteger('price');
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }
